@@ -22,8 +22,7 @@ if jmena_hesla.get(jmeno) == heslo:
     print("welcome to the app,",jmeno, "\nWe have 3 texts to be analyzed.")
 else:
   print("unregistered user, terminating the program..")
-  exit()  # !! Nefunguje v COLAB !!
-  quit()  # !! Nefunguje v COLAB !!
+  exit()
 print("-" * 50)
 
 # 2. Výběr 1 ze 3 textů k analýze, ukončení při chybné volbě
@@ -64,7 +63,7 @@ while True:
     break
   except ValueError:
     print("invalid choice, terminating the program..")
-    exit()  # !! Nefunguje v COLAB !!
+    exit()
 print("-" * 50)
 no_text = int(no_text)
 if no_text > 3 or no_text <= 0:
