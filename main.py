@@ -127,7 +127,6 @@ print("-" * 40)
 
 while opakovani_n <= nejvetsi_delka:
   cetnost_slov_n = delky_slov.count(opakovani_n)
-
   print(
       str(opakovani_n).rjust(3), "|" , "*" * cetnost_slov_n,
       " " * (20 - cetnost_slov_n), "|",cetnost_slov_n, sep=''
