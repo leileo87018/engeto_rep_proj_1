@@ -1,4 +1,4 @@
-""" 
+"""
 projekt_1.py: první projekt do Engeto Online Python Akademie
 author: Leoš Leitgeb
 
@@ -15,15 +15,15 @@ jmena_hesla = {
     "liz": "pass123"
 }
 
-jmeno = input("username: ")
-heslo = input("password: ")
-print("-" * 50)
+jmeno = input("username:")
+heslo = input("password:")
+print("-" * 40)
 if jmena_hesla.get(jmeno) == heslo:
     print("welcome to the app,",jmeno, "\nWe have 3 texts to be analyzed.")
 else:
   print("unregistered user, terminating the program..")
-  exit()
-print("-" * 50)
+  exit()  #
+print("-" * 40)
 
 # 2. Výběr 1 ze 3 textů k analýze, ukončení při chybné volbě
 
@@ -56,112 +56,80 @@ text_to_analyze = [
 ]
 
 # 2a. Dotaz na typ textu s kontrolou na číslo (typ/hodnotu)
+# >>> oprava 2, test na číslo změnen z while na if a dáno do jednoho bloku
 
-while True:
-  try:
-    no_text = int(input("Enter a number btw. 1 and 3 to select texts: "))
-    break
-  except ValueError:
+no_text = (input("Enter a number btw. 1 and 3 to select texts: "))
+if no_text.isdigit():
+  no_text = int(no_text)
+  if no_text > 3 or no_text <= 0:
     print("invalid choice, terminating the program..")
     exit()
-print("-" * 50)
-no_text = int(no_text)
-if no_text > 3 or no_text <= 0:
+else:
   print("invalid choice, terminating the program..")
   exit()
-else:
-  selected_text = text_to_analyze[no_text -1]
+
+selected_text = text_to_analyze[no_text -1]
 
 # 2b. Očištění textu o čárky a tečky
 final_text_to_analyze = selected_text.replace(",", "").replace(".", "")
 
 # 3. Statistiky
-# 3a. Počet slov¨
-# >> rozdělení řetězce na seznam slov a pomocí len() spočítání
-
+# 3a. Rozdělení řetězce na seznam slov pro další výpočty
 slova = final_text_to_analyze.split()
+print("-" * 40)
+
+# 3b. Spočítání počtu slov
 pocet_slov = len(slova)
 print("There are",pocet_slov, "words in the selected text.")
 
-# 3b. Počet slov začínajících velkým písmenem
-# >> rozdělení řetězce viz 3a a spočítání znaků s v.pismenem na indexu 0
-
+# 3c. Výpočty dle zadání, sjednocení do jednoho cyklu for >>> oprava 6
+pocet_slov_titlecase = 0  # >>> oprava 1
 pocet_slov_upper = 0
-
-for slovo in slova:
-  if slovo[0].isupper():
-    pocet_slov_upper = pocet_slov_upper + 1
-print("There are", pocet_slov_upper, "titlecase words.")
-
-# 3c. Počet slov psaných velkými písmeny
-# >> rozdělení řetězce viz 3a a spočítá počet s malým pismenem
-
-pocet_slov_upper = 0
+pocet_slov_lower = 0
+pocet_cislic = 0
+suma_cislic = 0
 
 for slovo in slova:
   if slovo.isupper():
     pocet_slov_upper = pocet_slov_upper + 1
-print("There are", pocet_slov_upper, "uppercase words.")
-
-# 3d. Počet slov psaných malými písmeny
-# >> rozdělení řetězce viz 3a a spočítá počet s velkým pismenem
-
-pocet_slov_lower = 0
-
-for slovo in slova:
-    if slovo.islower():
-        pocet_slov_lower = pocet_slov_lower + 1
-print("There are", pocet_slov_lower, "lowercase words.")
-
-# 3e. Počet a sumu čísel (ne cifer)
-# >> rozdělení řetězce viz 3a a spočítá počet a sumu čísel
-
-pocet_cislic = 0
-suma_cislic = 0
-
-for retezec in slova:
-  if retezec.isdigit():
+  elif slovo[0].isupper() and not slovo.isupper():
+    pocet_slov_titlecase = pocet_slov_titlecase + 1
+  elif slovo.islower():
+    pocet_slov_lower = pocet_slov_lower + 1
+  elif slovo.isdigit():
     pocet_cislic = pocet_cislic + 1
-    suma_cislic = suma_cislic + int(retezec)
+    suma_cislic = suma_cislic + int(slovo)
+
+print("There are", pocet_slov_titlecase, "titlecase words.")
+print("There are", pocet_slov_upper, "uppercase words.")
+print("There are", pocet_slov_lower, "lowercase words.")
 print("There are", pocet_cislic, "numeric strings.")
 print("The sum of all the numbers",suma_cislic)
 
 # 4. Vizualizace výsledků
 # >> rozdělení řetězce viz 3a a pomocí while a len spočítá četnost
 
-# 4a Spočítáme délky slov pomocí komprehence a vložíme do listu - delky_slov
+# 4a. Spočítáme délky slov pomocí komprehence a vložíme do listu - delky_slov
 delky_slov = [len(slovo) for slovo in slova]
 
 # 4b. Získáme největší délku slova - nejvetsi_delka - pro získání rozsahu hodnot
 delky_slov.sort()  # seřazení od nejmenšího k nevyššímu
 nejvetsi_delka = delky_slov[-1]  # získá poslední znak = největší délku slova
 
-# 4c. Získáme největší výskyt slov určité délky - nejvetsi_vyskyt - pro odsazení
+# 4c. Vyhodnotíme četnost výskytů v grafu - finální zobrazení
 # >> smyčka, která půjde tolikrát, kolik je největší délka slova
-
-opakovani = 1
-nejvetsi_vyskyt = 1
-
-while opakovani <= nejvetsi_delka:
-  cetnost_slov = delky_slov.count(opakovani)
-  if cetnost_slov > nejvetsi_vyskyt:
-    nejvetsi_vyskyt = cetnost_slov  # uložení nejvyšší hodnoty
-  opakovani = opakovani + 1
-
-# 4d. Vyhodnotíme četnost výskytů v grafu - finální zobrazení
-# >> smyčka, která půjde tolikrát, kolik je největší délka slova
+# >>> oprava 3-5 formátování výstupu
 opakovani_n = 1
 
-print("-" * 50)
-print("LEN","\t| OCCURENCES", " " * (nejvetsi_vyskyt -10), "| NR.") # nadpis
-print("-" * 50)
+print("-" * 40)
+print("LEN|","  OCCURENCES  ", "|NR.", sep='') # nadpis
+print("-" * 40)
 
 while opakovani_n <= nejvetsi_delka:
   cetnost_slov_n = delky_slov.count(opakovani_n)
 
   print(
-      opakovani_n, "\t|" , "*" * cetnost_slov_n,
-      " " * (nejvetsi_vyskyt - cetnost_slov_n), "|",cetnost_slov_n
+      str(opakovani_n).rjust(3), "|" , "*" * cetnost_slov_n,
+      " " * (20 - cetnost_slov_n), "|",cetnost_slov_n, sep=''
   )
   opakovani_n = opakovani_n + 1
-print("-" * 50)
