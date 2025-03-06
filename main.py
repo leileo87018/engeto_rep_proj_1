@@ -17,8 +17,8 @@ jmena_hesla = {
 
 jmeno = input("username:")
 heslo = input("password:")
-print("-" * 40)
 if jmena_hesla.get(jmeno) == heslo:
+    print("-" * 40)
     print("welcome to the app,",jmeno, "\nWe have 3 texts to be analyzed.")
 else:
   print("unregistered user, terminating the program..")
